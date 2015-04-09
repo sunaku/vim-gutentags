@@ -36,6 +36,12 @@ function! gutentags#ctags#init(project_root) abort
 endfunction
 
 function! gutentags#ctags#generate(proj_dir, tags_file, write_mode) abort
+    " Don't treat user's (massive) home directory as a project!
+    " https://github.com/ludovicchabant/vim-gutentags/issues/13
+    if a:proj_dir == $HOME
+        return
+    endif
+
     " Get to the tags file directory because ctags is finicky about
     " these things.
     let l:prev_cwd = getcwd()
